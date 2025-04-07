@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Croissant Dough Calculator</title>
+    <title>Viennoiserie Dough & Lamination Calculator</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -13,7 +13,6 @@
             background-color: #f5f5f5;
             color: #333;
         }
-        
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -22,66 +21,22 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
         }
-        
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-        
-        h2 {
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-        
-        h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        
+        h1 { text-align: center; margin-bottom: 20px; font-size: 24px; }
+        h2 { font-size: 20px; margin-bottom: 15px; }
+        h3 { font-size: 18px; margin-bottom: 10px; }
         .grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 20px;
             margin-bottom: 30px;
         }
-        
-        @media (min-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        
-        .panel {
-            padding: 15px;
-            border-radius: 8px;
-        }
-        
-        .input-panel {
-            background-color: #f9f9f9;
-        }
-        
-        .recipe-panel {
-            background-color: #e6f2ff;
-        }
-        
-        .instruction-panel {
-            background-color: #fff9e6;
-            padding: 15px;
-            border-radius: 8px;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-        
+        @media (min-width: 768px) { .grid { grid-template-columns: 1fr 1fr; } }
+        .panel { padding: 15px; border-radius: 8px; }
+        .input-panel { background-color: #f9f9f9; }
+        .recipe-panel { background-color: #e6f2ff; }
+        .instruction-panel { background-color: #fff9e6; padding: 15px; border-radius: 8px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 500; margin-bottom: 5px; font-size: 14px; }
         input[type="number"] {
             width: 100%;
             padding: 8px;
@@ -89,138 +44,49 @@
             border-radius: 4px;
             font-size: 16px;
         }
-        
-        input[type="range"] {
-            width: 100%;
-            margin: 5px 0;
-        }
-        
-        .range-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #666;
-        }
-        
-        .radio-group {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 10px;
-        }
-        
-        .radio-label {
-            display: flex;
-            align-items: center;
-        }
-        
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            user-select: none;
-        }
-        
-        input[type="radio"], 
-        input[type="checkbox"] {
-            margin-right: 5px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 15px;
-        }
-        
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        td:last-child {
-            text-align: right;
-            font-weight: 500;
-        }
-        
-        .note {
-            background-color: #fffde7;
-            border: 1px solid #fff9c4;
-            border-radius: 4px;
-            padding: 10px;
-            font-size: 13px;
-            margin: 10px 0;
-        }
-        
-        .alert {
-            color: #d32f2f;
-            font-size: 12px;
-            margin-left: 5px;
-        }
-        
-        .info-text {
-            font-size: 12px;
-            color: #666;
-            margin-left: 5px;
-        }
-        
-        ol {
-            padding-left: 20px;
-            margin-top: 10px;
-        }
-        
-        li {
-            margin-bottom: 8px;
-        }
-        
-        .summary {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #ddd;
-        }
-        
-        .total-weight {
-            display: flex;
-            justify-content: space-between;
-            font-weight: bold;
-            margin-top: 5px;
-        }
-        
-        .info-box {
-            background-color: #e3f2fd;
-            border: 1px solid #bbdefb;
-            border-radius: 4px;
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 13px;
-        }
-        
-        .info-list {
-            padding-left: 20px;
-            margin: 5px 0;
-        }
+        input[type="range"] { width: 100%; margin: 5px 0; }
+        .range-labels { display: flex; justify-content: space-between; font-size: 12px; color: #666; }
+        .radio-group { display: flex; gap: 15px; margin-bottom: 10px; }
+        .radio-label { display: flex; align-items: center; }
+        .checkbox-label { display: flex; align-items: center; user-select: none; }
+        input[type="radio"], input[type="checkbox"] { margin-right: 5px; }
+        select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        td:last-child { text-align: right; font-weight: 500; }
+        .note { background-color: #fffde7; border: 1px solid #fff9c4; border-radius: 4px; padding: 10px; font-size: 13px; margin: 10px 0; }
+        .alert { color: #d32f2f; font-size: 12px; margin-left: 5px; }
+        .info-text { font-size: 12px; color: #666; margin-left: 5px; }
+        ol { padding-left: 20px; margin-top: 10px; }
+        li { margin-bottom: 8px; }
+        .summary { margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd; }
+        .total-weight { display: flex; justify-content: space-between; font-weight: bold; margin-top: 5px; }
+        .info-box { background-color: #e3f2fd; border: 1px solid #bbdefb; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 13px; }
+        .info-list { padding-left: 20px; margin: 5px 0; }
+        canvas { border: 1px solid #ddd; margin-top: 10px; width: 100%; max-height: 150px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Croissant Dough Calculator</h1>
+        <h1>Viennoiserie Dough & Lamination Calculator</h1>
         
         <div class="grid">
-            <!-- Left column - Inputs -->
             <div class="panel input-panel">
-                <h2>Croissant Settings</h2>
+                <h2>Dough Settings</h2>
                 
                 <div class="form-group">
-                    <label for="croissantCount">Number of Croissants</label>
-                    <input type="number" id="croissantCount" min="1" value="12">
+                    <label for="pastryCount">Number of Pastries</label>
+                    <input type="number" id="pastryCount" min="1" value="12">
                 </div>
                 
                 <div class="form-group">
-                    <label for="croissantWeight">Croissant Weight (g)</label>
-                    <input type="number" id="croissantWeight" min="20" value="80">
+                    <label for="pastryWeight">Pastry Weight (g)</label>
+                    <input type="number" id="pastryWeight" min="20" value="80">
                 </div>
                 
                 <div class="form-group">
-                    <label for="hydration">Hydration: <span id="hydrationValue">55</span>%</label>
-                    <input type="range" id="hydration" min="50" max="60" step="1" value="55">
+                    <label for="hydration">Hydration: <span id="hydrationValue">54</span>%</label>
+                    <input type="range" id="hydration" min="50" max="60" step="1" value="54">
                     <div class="range-labels">
                         <span>50%</span>
                         <span>60%</span>
@@ -252,8 +118,8 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="butter">Butter in Dough (% of flour): <span id="butterValue">20</span>%</label>
-                    <input type="range" id="butter" min="10" max="30" step="1" value="20">
+                    <label for="butter">Butter in Dough (% of flour): <span id="butterValue">9</span>%</label>
+                    <input type="range" id="butter" min="5" max="20" step="1" value="9">
                 </div>
                 
                 <div class="form-group">
@@ -277,20 +143,51 @@
                 <div class="form-group">
                     <label for="yeast">
                         <span id="yeastTypeLabel">Fresh</span> Yeast (% of flour): <span id="yeastValue">3</span>%
-                        <span id="yeastEquivalent" class="info-text">(Equivalent to 0.90% instant or 1.50% active dry)</span>
+                        <span id="yeastEquivalent" class="info-text">(Equivalent to 0.9% instant or 1.5% active dry)</span>
                     </label>
                     <input type="range" id="yeast" min="1" max="5" step="0.1" value="3">
                 </div>
                 
+                <h3>Lamination Settings</h3>
+                
                 <div class="form-group">
-                    <label for="laminationButter">Lamination Butter (% of dough): <span id="laminationButterValue">40</span>%</label>
-                    <input type="range" id="laminationButter" min="25" max="50" step="1" value="40">
+                    <label for="laminationButter">Lamination Butter (% of dough): <span id="laminationButterValue">33</span>%</label>
+                    <input type="range" id="laminationButter" min="20" max="35" step="1" value="33">
+                </div>
+                
+                <div class="form-group">
+                    <label for="fold1">Fold 1</label>
+                    <select id="fold1">
+                        <option value="none">None</option>
+                        <option value="single">Single (5 layers)</option>
+                        <option value="letter" selected>Letter (7 layers)</option>
+                        <option value="book">Book (9 layers)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fold2">Fold 2</label>
+                    <select id="fold2">
+                        <option value="none">None</option>
+                        <option value="single">Single (~2x prior layers)</option>
+                        <option value="letter">Letter (~3x prior layers)</option>
+                        <option value="book">Book (~4x prior layers)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fold3">Fold 3</label>
+                    <select id="fold3">
+                        <option value="none">None</option>
+                        <option value="single">Single (~2x prior layers)</option>
+                        <option value="letter">Letter (~3x prior layers)</option>
+                        <option value="book">Book (~4x prior layers)</option>
+                    </select>
                 </div>
             </div>
             
-            <!-- Right column - Recipe -->
             <div class="panel recipe-panel">
-                <h2>Croissant Recipe</h2>
+                <h2>Viennoiserie Recipe</h2>
                 
                 <div>
                     <h3>Main Dough</h3>
@@ -350,8 +247,7 @@
                         </tbody>
                     </table>
                     <div class="note">
-                        <p>For best results, prepare poolish 12-16 hours before making the dough. The tiny amount 
-                        of yeast is intentional - it allows for slow fermentation.</p>
+                        <p>Prepare poolish 12-16 hours ahead for slow fermentation.</p>
                     </div>
                 </div>
                 
@@ -363,8 +259,13 @@
                                 <td>Butter (for lamination)</td>
                                 <td id="laminationButterAmount">0 g</td>
                             </tr>
+                            <tr>
+                                <td>Total Layers</td>
+                                <td id="totalLayers">0</td>
+                            </tr>
                         </tbody>
                     </table>
+                    <canvas id="layerVisualization" width="300" height="100"></canvas>
                 </div>
                 
                 <div class="summary">
@@ -377,8 +278,8 @@
                         <span id="finalWeight">0 g</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; font-size: 14px; margin-top: 10px;">
-                        <span>Croissants:</span>
-                        <span id="croissantSummary">12 × 80g each</span>
+                        <span>Pastries:</span>
+                        <span id="pastrySummary">12 × 80g each</span>
                     </div>
                 </div>
             </div>
@@ -390,35 +291,44 @@
             <div class="info-box">
                 <h4 style="margin-top: 0; margin-bottom: 5px;">Yeast Information</h4>
                 <p style="margin-bottom: 5px;" id="yeastInfoType">Your recipe uses Fresh Yeast.</p>
-                
                 <ul class="info-list">
-                    <li><strong>Fresh yeast</strong> (also called cake or compressed yeast): Use directly in the dough. Crumble and mix with flour or dissolve in liquid.</li>
-                    <li><strong>Instant dry yeast</strong>: Add directly to dry ingredients. No need to rehydrate. Use about 30% of the amount of fresh yeast.</li>
-                    <li><strong>Active dry yeast</strong>: Should be rehydrated in warm water (105-110°F/40-43°C) for 5-10 minutes before using. Use about 50% of the amount of fresh yeast.</li>
+                    <li><strong>Fresh yeast</strong>: Use directly. Crumble into flour or dissolve in liquid.</li>
+                    <li><strong>Instant dry yeast</strong>: Mix into dry ingredients. Use ~33% of fresh amount.</li>
+                    <li><strong>Active dry yeast</strong>: Rehydrate in warm water (40-43°C) for 5-10 minutes. Use ~50% of fresh amount.</li>
                 </ul>
             </div>
             
-            <ol id="instructionsList">
-                <!-- Instructions will be inserted here by JavaScript -->
-            </ol>
+            <div class="info-box">
+                <h4 style="margin-top: 0; margin-bottom: 5px;">Lamination Notes</h4>
+                <ul class="info-list">
+                    <li><strong>French Lock-in</strong>: Dough-butter-dough (3 layers).</li>
+                    <li><strong>Single</strong>: 5 layers after French, then ~2x prior layers.</li>
+                    <li><strong>Letter</strong>: 7 layers after French, then ~3x prior layers.</li>
+                    <li><strong>Book</strong>: 9 layers after French, then ~4x prior layers.</li>
+                    <li>Total folds: 2-4 (French + 1-3 more). Typical layers: Croissants (27-81), Danish/Pain au Chocolat (9-27).</li>
+                </ul>
+            </div>
+            
+            <ol id="instructionsList"></ol>
         </div>
     </div>
 
     <script>
-        // State
         let state = {
-            croissantCount: 12,
-            croissantWeight: 80,
-            hydration: 55,
+            pastryCount: 12,
+            pastryWeight: 80,
+            hydration: 54,
             usePoolish: false,
             cutoffsWeight: 0,
             salt: 2,
             sugar: 10,
-            butter: 20,
+            butter: 9,
             yeastType: 'fresh',
             yeast: 3,
-            laminationButter: 40,
-            // Calculated values
+            laminationButter: 33,
+            fold1: 'letter',
+            fold2: 'none',
+            fold3: 'none',
             flour: 0,
             water: 0,
             saltWeight: 0,
@@ -429,14 +339,13 @@
             poolishWater: 0,
             poolishYeast: 0,
             laminationButterWeight: 0,
-            totalDoughWeight: 0
+            totalDoughWeight: 0,
+            totalLayers: 0
         };
 
-        // Elements
         const elements = {
-            // Inputs
-            croissantCount: document.getElementById('croissantCount'),
-            croissantWeight: document.getElementById('croissantWeight'),
+            pastryCount: document.getElementById('pastryCount'),
+            pastryWeight: document.getElementById('pastryWeight'),
             hydration: document.getElementById('hydration'),
             hydrationValue: document.getElementById('hydrationValue'),
             usePoolish: document.getElementById('usePoolish'),
@@ -454,8 +363,9 @@
             yeastEquivalent: document.getElementById('yeastEquivalent'),
             laminationButter: document.getElementById('laminationButter'),
             laminationButterValue: document.getElementById('laminationButterValue'),
-            
-            // Outputs
+            fold1: document.getElementById('fold1'),
+            fold2: document.getElementById('fold2'),
+            fold3: document.getElementById('fold3'),
             flourAmount: document.getElementById('flourAmount'),
             waterAmount: document.getElementById('waterAmount'),
             saltAmount: document.getElementById('saltAmount'),
@@ -472,373 +382,274 @@
             poolishYeastAmount: document.getElementById('poolishYeastAmount'),
             precisionScaleWarning: document.getElementById('precisionScaleWarning'),
             laminationButterAmount: document.getElementById('laminationButterAmount'),
+            totalLayers: document.getElementById('totalLayers'),
+            layerVisualization: document.getElementById('layerVisualization'),
             totalDoughWeight: document.getElementById('totalDoughWeight'),
             finalWeight: document.getElementById('finalWeight'),
-            croissantSummary: document.getElementById('croissantSummary'),
-            
-            // Instructions
+            pastrySummary: document.getElementById('pastrySummary'),
             yeastInfoType: document.getElementById('yeastInfoType'),
             instructionsList: document.getElementById('instructionsList')
         };
 
-        // Initialize listeners
         function initializeListeners() {
-            // Number inputs
-            elements.croissantCount.addEventListener('input', function() {
-                updateState('croissantCount', Math.max(1, parseInt(this.value) || 0));
+            elements.pastryCount.addEventListener('input', () => updateState('pastryCount', Math.max(1, parseInt(elements.pastryCount.value) || 1)));
+            elements.pastryWeight.addEventListener('input', () => updateState('pastryWeight', Math.max(20, parseInt(elements.pastryWeight.value) || 20)));
+            elements.cutoffsWeight.addEventListener('input', () => updateState('cutoffsWeight', Math.max(0, parseInt(elements.cutoffsWeight.value) || 0)));
+            elements.hydration.addEventListener('input', () => {
+                updateState('hydration', parseInt(elements.hydration.value));
+                elements.hydrationValue.textContent = elements.hydration.value;
             });
-            
-            elements.croissantWeight.addEventListener('input', function() {
-                updateState('croissantWeight', Math.max(20, parseInt(this.value) || 0));
+            elements.salt.addEventListener('input', () => {
+                updateState('salt', parseFloat(elements.salt.value));
+                elements.saltValue.textContent = elements.salt.value;
             });
-            
-            elements.cutoffsWeight.addEventListener('input', function() {
-                updateState('cutoffsWeight', Math.max(0, parseInt(this.value) || 0));
+            elements.sugar.addEventListener('input', () => {
+                updateState('sugar', parseInt(elements.sugar.value));
+                elements.sugarValue.textContent = elements.sugar.value;
             });
-            
-            // Range inputs
-            elements.hydration.addEventListener('input', function() {
-                updateState('hydration', parseInt(this.value));
-                elements.hydrationValue.textContent = this.value;
+            elements.butter.addEventListener('input', () => {
+                updateState('butter', parseInt(elements.butter.value));
+                elements.butterValue.textContent = elements.butter.value;
             });
-            
-            elements.salt.addEventListener('input', function() {
-                updateState('salt', parseFloat(this.value));
-                elements.saltValue.textContent = this.value;
-            });
-            
-            elements.sugar.addEventListener('input', function() {
-                updateState('sugar', parseInt(this.value));
-                elements.sugarValue.textContent = this.value;
-            });
-            
-            elements.butter.addEventListener('input', function() {
-                updateState('butter', parseInt(this.value));
-                elements.butterValue.textContent = this.value;
-            });
-            
-            elements.yeast.addEventListener('input', function() {
-                updateState('yeast', parseFloat(this.value));
-                elements.yeastValue.textContent = this.value;
+            elements.yeast.addEventListener('input', () => {
+                updateState('yeast', parseFloat(elements.yeast.value));
+                elements.yeastValue.textContent = state.yeast;
                 updateYeastEquivalent();
             });
-            
-            elements.laminationButter.addEventListener('input', function() {
-                updateState('laminationButter', parseInt(this.value));
-                elements.laminationButterValue.textContent = this.value;
+            elements.laminationButter.addEventListener('input', () => {
+                updateState('laminationButter', parseInt(elements.laminationButter.value));
+                elements.laminationButterValue.textContent = elements.laminationButter.value;
             });
-            
-            // Checkbox
-            elements.usePoolish.addEventListener('change', function() {
-                updateState('usePoolish', this.checked);
-            });
-            
-            // Radio buttons
-            for (let radio of elements.yeastType) {
-                radio.addEventListener('change', function() {
-                    if (this.checked) {
-                        handleYeastTypeChange(this.value);
-                    }
+            elements.fold1.addEventListener('change', () => updateState('fold1', elements.fold1.value));
+            elements.fold2.addEventListener('change', () => updateState('fold2', elements.fold2.value));
+            elements.fold3.addEventListener('change', () => updateState('fold3', elements.fold3.value));
+            elements.usePoolish.addEventListener('change', () => updateState('usePoolish', elements.usePoolish.checked));
+            elements.yeastType.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    if (radio.checked) handleYeastTypeChange(radio.value);
                 });
-            }
+            });
         }
 
-        // Update state and recalculate
         function updateState(key, value) {
             state[key] = value;
+            const foldCount = getFoldCount();
+            if (foldCount > 4) {
+                if (key === 'fold3') elements.fold3.value = 'none';
+                else if (key === 'fold2') elements.fold2.value = 'none';
+                else if (key === 'fold1') elements.fold1.value = 'none';
+                state[key] = 'none';
+            }
             calculate();
             render();
         }
 
-        // Handle yeast type change
         function handleYeastTypeChange(newType) {
             if (newType === state.yeastType) return;
-            
-            let newYeastPercentage = state.yeast;
-            
-            // Convert current yeast to fresh equivalent
             let freshEquivalent = state.yeast;
-            if (state.yeastType === 'instant') {
-                freshEquivalent = state.yeast / 0.3;
-            } else if (state.yeastType === 'active') {
-                freshEquivalent = state.yeast / 0.5;
-            }
-            
-            // Convert fresh equivalent to new type
-            if (newType === 'fresh') {
-                newYeastPercentage = freshEquivalent;
-            } else if (newType === 'instant') {
-                newYeastPercentage = freshEquivalent * 0.3;
-            } else if (newType === 'active') {
-                newYeastPercentage = freshEquivalent * 0.5;
-            }
-            
-            // Update yeast type first, then percentage
+            if (state.yeastType === 'instant') freshEquivalent = state.yeast / 0.33;
+            else if (state.yeastType === 'active') freshEquivalent = state.yeast / 0.5;
+            let newYeastPercentage = newType === 'fresh' ? freshEquivalent :
+                                   newType === 'instant' ? freshEquivalent * 0.33 :
+                                   freshEquivalent * 0.5;
             state.yeastType = newType;
-            state.yeast = Math.round(newYeastPercentage * 10) / 10; // Round to 1 decimal
-            
-            // Update range input min/max based on yeast type
+            state.yeast = Math.round(newYeastPercentage * 10) / 10;
             updateYeastRangeInput();
-            
-            // Update display
             elements.yeastValue.textContent = state.yeast;
             elements.yeast.value = state.yeast;
-            
-            // Update other displays
             updateYeastEquivalent();
             elements.yeastTypeLabel.textContent = getYeastTypeLabel();
-            
-            // Recalculate
             calculate();
             render();
         }
 
-        // Update the range input min/max based on yeast type
         function updateYeastRangeInput() {
             if (state.yeastType === 'fresh') {
-                elements.yeast.min = 1;
-                elements.yeast.max = 5;
-                elements.yeast.step = 0.1;
+                elements.yeast.min = 1; elements.yeast.max = 5; elements.yeast.step = 0.1;
             } else if (state.yeastType === 'instant') {
-                elements.yeast.min = 0.3;
-                elements.yeast.max = 1.7;
-                elements.yeast.step = 0.05;
+                elements.yeast.min = 0.3; elements.yeast.max = 1.7; elements.yeast.step = 0.05;
             } else if (state.yeastType === 'active') {
-                elements.yeast.min = 0.5;
-                elements.yeast.max = 2.5;
-                elements.yeast.step = 0.05;
+                elements.yeast.min = 0.5; elements.yeast.max = 2.5; elements.yeast.step = 0.05;
             }
         }
 
-        // Update the yeast equivalent display
         function updateYeastEquivalent() {
             let equivalentText = "";
-            
             if (state.yeastType === 'fresh') {
-                const instantEquiv = (state.yeast * 0.3).toFixed(2);
+                const instantEquiv = (state.yeast * 0.33).toFixed(2);
                 const activeEquiv = (state.yeast * 0.5).toFixed(2);
                 equivalentText = `(Equivalent to ${instantEquiv}% instant or ${activeEquiv}% active dry)`;
             } else if (state.yeastType === 'instant') {
-                const freshEquiv = (state.yeast / 0.3).toFixed(1);
+                const freshEquiv = (state.yeast / 0.33).toFixed(1);
                 equivalentText = `(Equivalent to ${freshEquiv}% fresh yeast)`;
             } else if (state.yeastType === 'active') {
                 const freshEquiv = (state.yeast / 0.5).toFixed(1);
                 equivalentText = `(Equivalent to ${freshEquiv}% fresh yeast)`;
             }
-            
             elements.yeastEquivalent.textContent = equivalentText;
         }
 
-        // Get yeast type label for display
         function getYeastTypeLabel() {
-            if (state.yeastType === 'fresh') return 'Fresh';
-            if (state.yeastType === 'instant') return 'Instant Dry';
-            if (state.yeastType === 'active') return 'Active Dry';
-            return 'Yeast';
+            return { 'fresh': 'Fresh', 'instant': 'Instant Dry', 'active': 'Active Dry' }[state.yeastType] || 'Yeast';
         }
 
-        // Calculate all recipe values
+        function getFoldCount() {
+            let count = 1; // French lock-in fold
+            if (state.fold1 !== 'none') count++;
+            if (state.fold2 !== 'none') count++;
+            if (state.fold3 !== 'none') count++;
+            return count;
+        }
+
         function calculate() {
-            // Target total dough weight (minus lamination butter)
-            const targetWeight = state.croissantCount * state.croissantWeight - state.cutoffsWeight;
-            
-            // Calculate total flour needed including poolish flour if used
-            let totalFlourNeeded = 0;
-            
-            // First, determine the flour percentage of the total dough weight
-            // For every 100g of flour, we add hydration + salt + sugar + butter + yeast
+            const targetWeight = state.pastryCount * state.pastryWeight - state.cutoffsWeight;
             const totalPercentage = 100 + state.hydration + state.salt + state.sugar + state.butter + state.yeast;
+            const totalFlourNeeded = (targetWeight * 100) / totalPercentage;
             
-            // Calculate flour as a percentage of the target weight
-            totalFlourNeeded = (targetWeight * 100) / totalPercentage;
-            
-            // Adjust for poolish if used
-            let poolishFlourAmount = 0;
-            let poolishWaterAmount = 0;
-            let poolishYeastAmount = 0;
-            
+            let poolishFlourAmount = 0, poolishWaterAmount = 0, poolishYeastAmount = 0;
             if (state.usePoolish) {
-                // Poolish is 15% of the total flour needed
                 poolishFlourAmount = totalFlourNeeded * 0.15;
-                poolishWaterAmount = poolishFlourAmount; // 100% hydration
-                
-                // Yeast for poolish depends on type - 1% for fresh yeast
-                let poolishYeastPercent = 1.0; // 1% for fresh yeast
-                if (state.yeastType === 'instant') {
-                    poolishYeastPercent = 1.0 * 0.3; // 30% of fresh yeast amount
-                } else if (state.yeastType === 'active') {
-                    poolishYeastPercent = 1.0 * 0.5; // 50% of fresh yeast amount
-                }
-                
-                // Calculate poolish yeast
+                poolishWaterAmount = poolishFlourAmount;
+                const poolishYeastPercent = state.yeastType === 'fresh' ? 1.0 : 
+                                          state.yeastType === 'instant' ? 0.33 : 0.5;
                 poolishYeastAmount = poolishFlourAmount * (poolishYeastPercent/100);
             }
             
-            // Calculate main dough flour (total flour minus poolish flour)
             const mainFlour = totalFlourNeeded - (state.usePoolish ? poolishFlourAmount : 0);
-            
-            // Get actual yeast percentage based on type for calculation purposes
-            let actualYeastPercentage = state.yeast;
-            if (state.yeastType === 'fresh') {
-                // Use as is
-                actualYeastPercentage = state.yeast;
-            } else if (state.yeastType === 'instant') {
-                // Convert to fresh equivalent for calculation
-                actualYeastPercentage = state.yeast * (10/3);
-            } else if (state.yeastType === 'active') {
-                // Convert to fresh equivalent for calculation
-                actualYeastPercentage = state.yeast * 2;
-            }
-            
-            // Calculate all other ingredients based on percentages of total flour
             const waterAmount = (totalFlourNeeded * (state.hydration/100)) - (state.usePoolish ? poolishWaterAmount : 0);
             const saltAmount = totalFlourNeeded * (state.salt/100);
             const sugarAmount = totalFlourNeeded * (state.sugar/100);
             const butterAmount = totalFlourNeeded * (state.butter/100);
-            const yeastAmount = (totalFlourNeeded * (state.yeast/100)) - (state.usePoolish ? poolishYeastAmount : 0);
+            const yeastAmount = totalFlourNeeded * (state.yeast/100) - (state.usePoolish ? poolishYeastAmount : 0);
             
-            // Calculate total dough weight
             const totalWeight = mainFlour + waterAmount + saltAmount + sugarAmount + 
-                               butterAmount + yeastAmount + 
-                               (state.usePoolish ? (poolishFlourAmount + poolishWaterAmount + poolishYeastAmount) : 0) + 
-                               state.cutoffsWeight;
+                              butterAmount + yeastAmount + 
+                              (state.usePoolish ? (poolishFlourAmount + poolishWaterAmount + poolishYeastAmount) : 0) + 
+                              state.cutoffsWeight;
             
-            // Calculate lamination butter (percentage of total dough weight)
             const laminationButterAmount = totalWeight * (state.laminationButter/100);
+            let totalLayers = 3; // French lock-in (D-B-D)
+            const folds = [state.fold1, state.fold2, state.fold3];
+            folds.forEach(fold => {
+                if (fold === 'single') totalLayers = totalLayers === 3 ? 5 : (totalLayers * 2) - 1;
+                else if (fold === 'letter') totalLayers = totalLayers === 3 ? 7 : (totalLayers * 3) - 2;
+                else if (fold === 'book') totalLayers = totalLayers === 3 ? 9 : (totalLayers * 4) - 3;
+            });
             
-            // Update state with calculated values
             state.flour = Math.round(mainFlour);
             state.water = Math.round(waterAmount);
-            state.saltWeight = Math.round(saltAmount);
+            state.saltWeight = Math.round(saltAmount * 10) / 10;
             state.sugarWeight = Math.round(sugarAmount);
             state.butterWeight = Math.round(butterAmount);
-            state.yeastWeight = Math.round(yeastAmount * 10) / 10; // Round to 1 decimal place
+            state.yeastWeight = Math.round(yeastAmount * 10) / 10;
             state.poolishFlour = Math.round(poolishFlourAmount);
             state.poolishWater = Math.round(poolishWaterAmount);
-            
-            // For poolish yeast, use more precision for small amounts
-            if (poolishYeastAmount < 1) {
-                state.poolishYeast = Math.round(poolishYeastAmount * 100) / 100; // Round to 2 decimal places
-            } else {
-                state.poolishYeast = Math.round(poolishYeastAmount * 10) / 10; // Round to 1 decimal place
-            }
-            
+            state.poolishYeast = poolishYeastAmount < 1 ? 
+                               Math.round(poolishYeastAmount * 100) / 100 : 
+                               Math.round(poolishYeastAmount * 10) / 10;
             state.laminationButterWeight = Math.round(laminationButterAmount);
             state.totalDoughWeight = Math.round(totalWeight);
+            state.totalLayers = totalLayers;
         }
 
-        // Render the recipe
         function render() {
-            // Update recipe values
             elements.flourAmount.textContent = `${state.flour} g`;
             elements.waterAmount.textContent = `${state.water} g`;
             elements.saltAmount.textContent = `${state.saltWeight} g`;
             elements.sugarAmount.textContent = `${state.sugarWeight} g`;
             elements.butterAmount.textContent = `${state.butterWeight} g`;
-            
-            // Update yeast display
             elements.yeastTypeDisplay.textContent = `${getYeastTypeLabel()} Yeast`;
             elements.yeastAmount.textContent = `${state.yeastWeight} g`;
             
-            // Handle cutoffs row
-            if (state.cutoffsWeight > 0) {
-                elements.cutoffsRow.style.display = '';
-                elements.cutoffsAmount.textContent = `${state.cutoffsWeight} g`;
-            } else {
-                elements.cutoffsRow.style.display = 'none';
-            }
+            elements.cutoffsRow.style.display = state.cutoffsWeight > 0 ? '' : 'none';
+            if (state.cutoffsWeight > 0) elements.cutoffsAmount.textContent = `${state.cutoffsWeight} g`;
             
-            // Handle poolish section
+            elements.poolishSection.style.display = state.usePoolish ? '' : 'none';
             if (state.usePoolish) {
-                elements.poolishSection.style.display = '';
                 elements.poolishFlourAmount.textContent = `${state.poolishFlour} g`;
                 elements.poolishWaterAmount.textContent = `${state.poolishWater} g`;
                 elements.poolishYeastTypeDisplay.textContent = `${getYeastTypeLabel()} Yeast`;
                 elements.poolishYeastAmount.textContent = `${state.poolishYeast} g`;
-                
-                // Show precision scale warning if needed
-                if (state.poolishYeast < 0.1) {
-                    elements.precisionScaleWarning.style.display = '';
-                } else {
-                    elements.precisionScaleWarning.style.display = 'none';
-                }
-            } else {
-                elements.poolishSection.style.display = 'none';
+                elements.precisionScaleWarning.style.display = state.poolishYeast < 0.1 ? '' : 'none';
             }
             
-            // Update lamination butter
             elements.laminationButterAmount.textContent = `${state.laminationButterWeight} g`;
-            
-            // Update summary
+            elements.totalLayers.textContent = `${state.totalLayers}`;
             elements.totalDoughWeight.textContent = `${state.totalDoughWeight} g`;
             elements.finalWeight.textContent = `${state.totalDoughWeight + state.laminationButterWeight} g`;
-            elements.croissantSummary.textContent = `${state.croissantCount} × ${state.croissantWeight}g each`;
-            
-            // Update yeast info
+            elements.pastrySummary.textContent = `${state.pastryCount} × ${state.pastryWeight}g each`;
             elements.yeastInfoType.textContent = `Your recipe uses ${getYeastTypeLabel()} Yeast.`;
             
-            // Update instructions
             updateInstructions();
+            drawLayerVisualization();
         }
 
-        // Update the instructions based on current settings
         function updateInstructions() {
             const instructions = [];
-            
             if (state.usePoolish) {
                 let poolishInstruction = `<strong>Prepare poolish:</strong> Mix ${state.poolishFlour}g flour, ${state.poolishWater}g water, and ${state.poolishYeast}g ${getYeastTypeLabel().toLowerCase()} yeast`;
-                
-                if (state.yeastType === 'active') {
-                    poolishInstruction += ` (rehydrate the yeast first in a small amount of the water)`;
-                }
-                
-                poolishInstruction += `. Let ferment at room temperature for 12-14 hours until bubbly.`;
+                if (state.yeastType === 'active') poolishInstruction += ` (rehydrate first in a small amount of the water)`;
+                poolishInstruction += `. Ferment at room temperature for 12-16 hours until bubbly.`;
                 instructions.push(poolishInstruction);
             }
             
-            let doughInstruction = `<strong>Mix dough:</strong> Combine flour, water`;
-            
-            if (state.usePoolish) {
-                doughInstruction += `, poolish`;
-            }
-            
-            if (state.cutoffsWeight > 0) {
-                doughInstruction += `, cutoffs`;
-            }
-            
-            doughInstruction += `, salt, sugar, and `;
-            
-            if (state.yeastType === 'active') {
-                doughInstruction += `rehydrated `;
-            }
-            
+            let doughInstruction = `<strong>Mix dough:</strong> Combine ${state.flour}g flour, ${state.water}g water`;
+            if (state.usePoolish) doughInstruction += `, poolish`;
+            doughInstruction += `, ${state.saltWeight}g salt, ${state.sugarWeight}g sugar, and ${state.yeastWeight}g `;
+            if (state.yeastType === 'active') doughInstruction += `rehydrated `;
             doughInstruction += `${state.yeastType} yeast`;
-            
-            if (state.yeastType === 'active' && !state.usePoolish) {
-                doughInstruction += ` (rehydrate in a small amount of warm water first)`;
-            }
-            
-            doughInstruction += `. Mix until just combined, then add the dough butter and mix until smooth.`;
+            if (state.yeastType === 'active' && !state.usePoolish) doughInstruction += ` (rehydrate in a small amount of warm water first)`;
+            doughInstruction += `. Mix until partially developed, then add ${state.butterWeight}g butter`;
+            if (state.cutoffsWeight > 0) doughInstruction += ` and ${state.cutoffsWeight}g cutoffs`;
+            doughInstruction += `, kneading until smooth.`;
             instructions.push(doughInstruction);
             
-            instructions.push(`<strong>First rise:</strong> Let dough rise until doubled, about 1.5-2 hours.`);
+            instructions.push(`<strong>Bulk fermentation:</strong> Let dough rise at room temperature until doubled, about 1.5-2 hours, with optional folds for strength.`);
             
-            instructions.push(`<strong>Lamination:</strong> Roll dough into a rectangle, place ${state.laminationButterWeight}g butter in the center, and perform a letter fold. Complete two more letter folds with 30-minute rests in between.`);
+            let laminationInstruction = `<strong>Lamination:</strong> Roll dough into a rectangle and lock in ${state.laminationButterWeight}g butter with a French fold`;
+            const folds = [state.fold1, state.fold2, state.fold3].filter(f => f !== 'none');
+            if (folds.length > 0) {
+                laminationInstruction += `, followed by ${folds.map(f => f).join(', ')} fold${folds.length > 1 ? 's' : ''}`;
+            }
+            laminationInstruction += ` (total ${state.totalLayers} layers). Chill 20-30 minutes between folds as needed.`;
+            instructions.push(laminationInstruction);
             
-            instructions.push(`<strong>Final proof:</strong> Shape croissants and proof until puffy, about 2 hours.`);
+            instructions.push(`<strong>Shape:</strong> Roll dough to desired thickness (typically 3-5mm) and cut/shape into ${state.pastryCount} pieces.`);
+            instructions.push(`<strong>Final proof:</strong> Proof at 24-26°C (75-78°F) until doubled and jiggly, about 2-3 hours.`);
+            instructions.push(`<strong>Bake:</strong> Optionally brush with egg wash (1 egg + 1 tbsp water). Bake at 190-200°C (375-390°F) for 15-20 minutes until golden brown.`);
+
+            elements.instructionsList.innerHTML = instructions.map(i => `<li>${i}</li>`).join('');
+        }
+
+        function drawLayerVisualization() {
+            const canvas = elements.layerVisualization;
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            ctx.clearRect(0, 0, width, height);
             
-            instructions.push(`<strong>Bake:</strong> Bake at 200°C (390°F) for 15-18 minutes until golden brown.`);
+            let totalLayers = 3; // French lock-in
+            const folds = [state.fold1, state.fold2, state.fold3];
+            folds.forEach(fold => {
+                if (fold === 'single') totalLayers = totalLayers === 3 ? 5 : (totalLayers * 2) - 1;
+                else if (fold === 'letter') totalLayers = totalLayers === 3 ? 7 : (totalLayers * 3) - 2;
+                else if (fold === 'book') totalLayers = totalLayers === 3 ? 9 : (totalLayers * 4) - 3;
+            });
             
-            // Render instructions
-            elements.instructionsList.innerHTML = '';
-            instructions.forEach(instruction => {
-                const li = document.createElement('li');
-                li.innerHTML = instruction;
-                elements.instructionsList.appendChild(li);
+            const layers = [];
+            for (let i = 0; i < totalLayers; i++) {
+                layers.push(i % 2 === 0 ? 'dough' : 'butter');
+            }
+            
+            const layerHeight = Math.min(height / totalLayers, 10);
+            layers.slice(0, Math.min(totalLayers, height / layerHeight)).forEach((layer, i) => {
+                ctx.fillStyle = layer === 'dough' ? '#ffffff' : '#ffeb3b';
+                ctx.fillRect(0, i * layerHeight, width, layerHeight);
+                ctx.strokeStyle = '#ccc';
+                ctx.strokeRect(0, i * layerHeight, width, layerHeight);
             });
         }
 
-        // Initialize the application
         function init() {
             initializeListeners();
             updateYeastRangeInput();
@@ -847,7 +658,6 @@
             render();
         }
 
-        // Start the app
         init();
     </script>
 </body>
