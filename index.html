@@ -34,6 +34,7 @@
         .panel { padding: 15px; border-radius: 8px; }
         .input-panel { background-color: #f9f9f9; }
         .recipe-panel { background-color: #e6f2ff; }
+        .mass-panel { background-color: #e8f5e9; }
         .instruction-panel { background-color: #fff9e6; padding: 15px; border-radius: 8px; }
         .form-group { margin-bottom: 15px; }
         label { display: block; font-weight: 500; margin-bottom: 5px; font-size: 14px; }
@@ -284,6 +285,66 @@
                 </div>
             </div>
         </div>
+
+        <div class="panel mass-panel">
+            <h2>Mass Calculator</h2>
+            
+            <div class="form-group">
+                <label>Shape</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="shape" value="triangle" checked>
+                        Triangle (Croissant)
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="shape" value="rectangle">
+                        Rectangle (Danish, Pain au Chocolat, etc.)
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="thickness">Thickness: <span id="thicknessValue">4</span> mm</label>
+                <input type="range" id="thickness" min="3" max="6" step="0.5" value="4">
+                <div class="range-labels">
+                    <span>3 mm</span>
+                    <span>6 mm</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="length">Length: <span id="lengthValue">25</span> cm</label>
+                <input type="range" id="length" min="5" max="50" step="1" value="25">
+                <div class="range-labels">
+                    <span>5 cm</span>
+                    <span>50 cm</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="width">Width: <span id="widthValue">9</span> cm</label>
+                <input type="range" id="width" min="2" max="20" step="0.5" value="9">
+                <div class="range-labels">
+                    <span>2 cm</span>
+                    <span>20 cm</span>
+                </div>
+            </div>
+            
+            <div class="summary">
+                <div class="total-weight">
+                    <span>Raw Dough Mass:</span>
+                    <span id="rawMass">0 g</span>
+                </div>
+                <div class="total-weight">
+                    <span>Post-Bake Mass (est.):</span>
+                    <span id="bakedMass">0 g</span>
+                </div>
+                <div class="total-weight">
+                    <span>Estimated Density:</span>
+                    <span id="density">0 g/cm³</span>
+                </div>
+            </div>
+        </div>
         
         <div class="instruction-panel">
             <h3>Instructions</h3>
@@ -340,7 +401,14 @@
             poolishYeast: 0,
             laminationButterWeight: 0,
             totalDoughWeight: 0,
-            totalLayers: 0
+            totalLayers: 0,
+            shape: 'triangle',
+            thickness: 4,
+            length: 25,
+            width: 9,
+            rawMass: 0,
+            bakedMass: 0,
+            density: 0
         };
 
         const elements = {
@@ -388,7 +456,17 @@
             finalWeight: document.getElementById('finalWeight'),
             pastrySummary: document.getElementById('pastrySummary'),
             yeastInfoType: document.getElementById('yeastInfoType'),
-            instructionsList: document.getElementById('instructionsList')
+            instructionsList: document.getElementById('instructionsList'),
+            shape: document.getElementsByName('shape'),
+            thickness: document.getElementById('thickness'),
+            thicknessValue: document.getElementById('thicknessValue'),
+            length: document.getElementById('length'),
+            lengthValue: document.getElementById('lengthValue'),
+            width: document.getElementById('width'),
+            widthValue: document.getElementById('widthValue'),
+            rawMass: document.getElementById('rawMass'),
+            bakedMass: document.getElementById('bakedMass'),
+            density: document.getElementById('density')
         };
 
         function initializeListeners() {
@@ -428,6 +506,24 @@
                 radio.addEventListener('change', () => {
                     if (radio.checked) handleYeastTypeChange(radio.value);
                 });
+            });
+
+            elements.shape.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    if (radio.checked) updateState('shape', radio.value);
+                });
+            });
+            elements.thickness.addEventListener('input', () => {
+                updateState('thickness', parseFloat(elements.thickness.value));
+                elements.thicknessValue.textContent = elements.thickness.value;
+            });
+            elements.length.addEventListener('input', () => {
+                updateState('length', parseInt(elements.length.value));
+                elements.lengthValue.textContent = elements.length.value;
+            });
+            elements.width.addEventListener('input', () => {
+                updateState('width', parseFloat(elements.width.value));
+                elements.widthValue.textContent = elements.width.value;
             });
         }
 
@@ -502,6 +598,7 @@
         }
 
         function calculate() {
+            // Dough and Recipe Calculations
             const targetWeight = state.pastryCount * state.pastryWeight - state.cutoffsWeight;
             const totalPercentage = 100 + state.hydration + state.salt + state.sugar + state.butter + state.yeast;
             const totalFlourNeeded = (targetWeight * 100) / totalPercentage;
@@ -550,9 +647,30 @@
             state.laminationButterWeight = Math.round(laminationButterAmount);
             state.totalDoughWeight = Math.round(totalWeight);
             state.totalLayers = totalLayers;
+
+            // Mass Calculator Calculations with Dynamic Density
+            const baseDensity = 1.18; // Flour + water at 50% hydration
+            const hydrationFactor = (state.hydration - 50) * -0.002; // -0.02 g/cm³ per 10% hydration
+            const doughButterFactor = (state.butter / 100) * (1.18 - 0.9); // Butter reduces density (0.9 vs 1.18)
+            const laminationButterFactor = (state.laminationButter / 100) * (1.18 - 0.9); // Lamination butter effect
+            const density = baseDensity - doughButterFactor - laminationButterFactor + hydrationFactor;
+            state.density = Math.round(density * 100) / 100; // g/cm³, 2 decimals
+
+            const thicknessCm = state.thickness / 10; // mm to cm
+            let volume = 0;
+            if (state.shape === 'triangle') {
+                volume = (state.length * state.width * thicknessCm) / 2; // Triangle area * thickness
+            } else {
+                volume = state.length * state.width * thicknessCm; // Rectangle area * thickness
+            }
+            const rawMass = volume * state.density;
+            const bakedMass = rawMass * (1 - 0.12); // 12% water loss
+            state.rawMass = Math.round(rawMass * 10) / 10;
+            state.bakedMass = Math.round(bakedMass * 10) / 10;
         }
 
         function render() {
+            // Render Recipe
             elements.flourAmount.textContent = `${state.flour} g`;
             elements.waterAmount.textContent = `${state.water} g`;
             elements.saltAmount.textContent = `${state.saltWeight} g`;
@@ -582,6 +700,11 @@
             
             updateInstructions();
             drawLayerVisualization();
+
+            // Render Mass Calculator
+            elements.rawMass.textContent = `${state.rawMass} g`;
+            elements.bakedMass.textContent = `${state.bakedMass} g`;
+            elements.density.textContent = `${state.density} g/cm³`;
         }
 
         function updateInstructions() {
