@@ -35,18 +35,19 @@
         .input-panel { background-color: #f9f9f9; }
         .recipe-panel { background-color: #e6f2ff; }
         .mass-panel { background-color: #e8f5e9; }
+        .cost-panel { background-color: #fce4ec; }
         .instruction-panel { background-color: #fff9e6; padding: 15px; border-radius: 8px; }
         .form-group { margin-bottom: 15px; }
         label { display: block; font-weight: 500; margin-bottom: 5px; font-size: 14px; }
-        input[type="number"] {
+        input[type="number"], input[type="text"] {
             width: 100%;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
         }
-        input[type="range"] { width: 100%; margin: 5px 0; }
-        .range-labels { display: flex; justify-content: space-between; font-size: 12px; color: #666; }
+        input[type="range"] { width: 50%; margin: 5px 0; }
+        .range-labels { display: flex; justify-content: space-between; font-size: 12px; color: #666; width: 50%; }
         .radio-group { display: flex; gap: 15px; margin-bottom: 10px; }
         .radio-label { display: flex; align-items: center; }
         .checkbox-label { display: flex; align-items: center; user-select: none; }
@@ -65,6 +66,13 @@
         .info-box { background-color: #e3f2fd; border: 1px solid #bbdefb; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 13px; }
         .info-list { padding-left: 20px; margin: 5px 0; }
         canvas { border: 1px solid #ddd; margin-top: 10px; width: 100%; max-height: 150px; }
+        .panel-split { display: flex; gap: 20px; }
+        .panel-left, .panel-right { flex: 1; }
+        .misc-ingredient { display: flex; gap: 10px; margin-bottom: 10px; }
+        .misc-ingredient input[type="text"] { flex: 2; }
+        .misc-ingredient input[type="number"] { flex: 1; }
+        button { padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; background-color: #f0f0f0; cursor: pointer; }
+        button:hover { background-color: #e0e0e0; }
     </style>
 </head>
 <body>
@@ -278,6 +286,14 @@
                         <span>Expected Final Weight:</span>
                         <span id="finalWeight">0 g</span>
                     </div>
+                    <div class="total-weight">
+                        <span>Total Batch Cost:</span>
+                        <span id="totalCost">£0.00</span>
+                    </div>
+                    <div class="total-weight">
+                        <span>Cost per Pastry:</span>
+                        <span id="costPerPastry">£0.00</span>
+                    </div>
                     <div style="display: flex; justify-content: space-between; font-size: 14px; margin-top: 10px;">
                         <span>Pastries:</span>
                         <span id="pastrySummary">12 × 80g each</span>
@@ -288,60 +304,101 @@
 
         <div class="panel mass-panel">
             <h2>Mass Calculator</h2>
-            
-            <div class="form-group">
-                <label>Shape</label>
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="shape" value="triangle" checked>
-                        Triangle (Croissant)
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="shape" value="rectangle">
-                        Rectangle (Danish, Pain au Chocolat, etc.)
-                    </label>
+            <div class="panel-split">
+                <div class="panel-left">
+                    <div class="form-group">
+                        <label>Shape</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="shape" value="triangle" checked>
+                                Triangle (Croissant)
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="shape" value="rectangle">
+                                Rectangle (Danish, etc.)
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="thickness">Thickness: <span id="thicknessValue">4</span> mm</label>
+                        <input type="range" id="thickness" min="3" max="6" step="0.5" value="4">
+                        <div class="range-labels">
+                            <span>3 mm</span>
+                            <span>6 mm</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="length">Length: <span id="lengthValue">25</span> cm</label>
+                        <input type="range" id="length" min="5" max="50" step="1" value="25">
+                        <div class="range-labels">
+                            <span>5 cm</span>
+                            <span>50 cm</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="width">Width: <span id="widthValue">9</span> cm</label>
+                        <input type="range" id="width" min="2" max="20" step="0.5" value="9">
+                        <div class="range-labels">
+                            <span>2 cm</span>
+                            <span>20 cm</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-right">
+                    <div class="summary">
+                        <div class="total-weight">
+                            <span>Raw Dough Mass:</span>
+                            <span id="rawMass">0 g</span>
+                        </div>
+                        <div class="total-weight">
+                            <span>Post-Bake Mass (est.):</span>
+                            <span id="bakedMass">0 g</span>
+                        </div>
+                        <div class="total-weight">
+                            <span>Estimated Density:</span>
+                            <span id="density">0 g/cm³</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            <div class="form-group">
-                <label for="thickness">Thickness: <span id="thicknessValue">4</span> mm</label>
-                <input type="range" id="thickness" min="3" max="6" step="0.5" value="4">
-                <div class="range-labels">
-                    <span>3 mm</span>
-                    <span>6 mm</span>
+        </div>
+
+        <div class="panel cost-panel">
+            <h2>Cost Calculator</h2>
+            <div class="panel-split">
+                <div class="panel-left">
+                    <div class="form-group">
+                        <label for="flourCost">Flour (£/kg)</label>
+                        <input type="number" id="flourCost" min="0" step="0.01" value="0.50">
+                    </div>
+                    <div class="form-group">
+                        <label for="waterCost">Water (£/kg)</label>
+                        <input type="number" id="waterCost" min="0" step="0.01" value="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label for="saltCost">Salt (£/kg)</label>
+                        <input type="number" id="saltCost" min="0" step="0.01" value="0.40">
+                    </div>
+                    <div class="form-group">
+                        <label for="sugarCost">Sugar (£/kg)</label>
+                        <input type="number" id="sugarCost" min="0" step="0.01" value="0.80">
+                    </div>
+                    <div class="form-group">
+                        <label for="butterCost">Butter (£/kg)</label>
+                        <input type="number" id="butterCost" min="0" step="0.01" value="3.50">
+                    </div>
+                    <div class="form-group">
+                        <label for="yeastCost">Yeast (£/kg)</label>
+                        <input type="number" id="yeastCost" min="0" step="0.01" value="1.60">
+                    </div>
                 </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="length">Length: <span id="lengthValue">25</span> cm</label>
-                <input type="range" id="length" min="5" max="50" step="1" value="25">
-                <div class="range-labels">
-                    <span>5 cm</span>
-                    <span>50 cm</span>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="width">Width: <span id="widthValue">9</span> cm</label>
-                <input type="range" id="width" min="2" max="20" step="0.5" value="9">
-                <div class="range-labels">
-                    <span>2 cm</span>
-                    <span>20 cm</span>
-                </div>
-            </div>
-            
-            <div class="summary">
-                <div class="total-weight">
-                    <span>Raw Dough Mass:</span>
-                    <span id="rawMass">0 g</span>
-                </div>
-                <div class="total-weight">
-                    <span>Post-Bake Mass (est.):</span>
-                    <span id="bakedMass">0 g</span>
-                </div>
-                <div class="total-weight">
-                    <span>Estimated Density:</span>
-                    <span id="density">0 g/cm³</span>
+                <div class="panel-right">
+                    <h3>Miscellaneous Ingredients</h3>
+                    <div id="miscIngredients"></div>
+                    <button id="addMisc">Add Ingredient</button>
                 </div>
             </div>
         </div>
@@ -408,7 +465,16 @@
             width: 9,
             rawMass: 0,
             bakedMass: 0,
-            density: 0
+            density: 0,
+            flourCost: 0.50,
+            waterCost: 0.00,
+            saltCost: 0.40,
+            sugarCost: 0.80,
+            butterCost: 3.50,
+            yeastCost: 1.60,
+            totalCost: 0,
+            costPerPastry: 0,
+            miscIngredients: []
         };
 
         const elements = {
@@ -454,6 +520,8 @@
             layerVisualization: document.getElementById('layerVisualization'),
             totalDoughWeight: document.getElementById('totalDoughWeight'),
             finalWeight: document.getElementById('finalWeight'),
+            totalCost: document.getElementById('totalCost'),
+            costPerPastry: document.getElementById('costPerPastry'),
             pastrySummary: document.getElementById('pastrySummary'),
             yeastInfoType: document.getElementById('yeastInfoType'),
             instructionsList: document.getElementById('instructionsList'),
@@ -466,7 +534,15 @@
             widthValue: document.getElementById('widthValue'),
             rawMass: document.getElementById('rawMass'),
             bakedMass: document.getElementById('bakedMass'),
-            density: document.getElementById('density')
+            density: document.getElementById('density'),
+            flourCost: document.getElementById('flourCost'),
+            waterCost: document.getElementById('waterCost'),
+            saltCost: document.getElementById('saltCost'),
+            sugarCost: document.getElementById('sugarCost'),
+            butterCost: document.getElementById('butterCost'),
+            yeastCost: document.getElementById('yeastCost'),
+            miscIngredients: document.getElementById('miscIngredients'),
+            addMisc: document.getElementById('addMisc')
         };
 
         function initializeListeners() {
@@ -525,6 +601,49 @@
                 updateState('width', parseFloat(elements.width.value));
                 elements.widthValue.textContent = elements.width.value;
             });
+
+            elements.flourCost.addEventListener('input', () => updateState('flourCost', Math.max(0, parseFloat(elements.flourCost.value) || 0)));
+            elements.waterCost.addEventListener('input', () => updateState('waterCost', Math.max(0, parseFloat(elements.waterCost.value) || 0)));
+            elements.saltCost.addEventListener('input', () => updateState('saltCost', Math.max(0, parseFloat(elements.saltCost.value) || 0)));
+            elements.sugarCost.addEventListener('input', () => updateState('sugarCost', Math.max(0, parseFloat(elements.sugarCost.value) || 0)));
+            elements.butterCost.addEventListener('input', () => updateState('butterCost', Math.max(0, parseFloat(elements.butterCost.value) || 0)));
+            elements.yeastCost.addEventListener('input', () => updateState('yeastCost', Math.max(0, parseFloat(elements.yeastCost.value) || 0)));
+
+            elements.addMisc.addEventListener('click', addMiscIngredient);
+        }
+
+        function addMiscIngredient(name = '', quantity = 0, cost = 0) {
+            const index = state.miscIngredients.length;
+            state.miscIngredients.push({ name, quantity, cost });
+
+            const div = document.createElement('div');
+            div.className = 'misc-ingredient';
+            div.innerHTML = `
+                <input type="text" placeholder="Name (e.g., Chocolate)" value="${name}">
+                <input type="number" placeholder="Quantity (g)" min="0" step="1" value="${quantity}">
+                <input type="number" placeholder="Cost (£/kg)" min="0" step="0.01" value="${cost}">
+                <button onclick="this.parentElement.remove(); state.miscIngredients.splice(${index}, 1); calculate(); render();">Remove</button>
+            `;
+            elements.miscIngredients.appendChild(div);
+
+            div.querySelector('input[type="text"]').addEventListener('input', (e) => {
+                state.miscIngredients[index].name = e.target.value;
+                calculate();
+                render();
+            });
+            div.querySelectorAll('input[type="number"]')[0].addEventListener('input', (e) => {
+                state.miscIngredients[index].quantity = Math.max(0, parseFloat(e.target.value) || 0);
+                calculate();
+                render();
+            });
+            div.querySelectorAll('input[type="number"]')[1].addEventListener('input', (e) => {
+                state.miscIngredients[index].cost = Math.max(0, parseFloat(e.target.value) || 0);
+                calculate();
+                render();
+            });
+
+            calculate();
+            render();
         }
 
         function updateState(key, value) {
@@ -667,6 +786,23 @@
             const bakedMass = rawMass * (1 - 0.12); // 12% water loss
             state.rawMass = Math.round(rawMass * 10) / 10;
             state.bakedMass = Math.round(bakedMass * 10) / 10;
+
+            // Update pastryWeight from rawMass
+            state.pastryWeight = Math.round(state.rawMass);
+            elements.pastryWeight.value = state.pastryWeight;
+
+            // Cost Calculations
+            const flourTotalCost = (state.flour + state.poolishFlour) / 1000 * state.flourCost;
+            const waterTotalCost = (state.water + state.poolishWater) / 1000 * state.waterCost;
+            const saltTotalCost = state.saltWeight / 1000 * state.saltCost;
+            const sugarTotalCost = state.sugarWeight / 1000 * state.sugarCost;
+            const butterTotalCost = (state.butterWeight + state.laminationButterWeight) / 1000 * state.butterCost;
+            const yeastTotalCost = (state.yeastWeight + state.poolishYeast) / 1000 * state.yeastCost;
+            const miscTotalCost = state.miscIngredients.reduce((sum, item) => sum + (item.quantity / 1000 * item.cost), 0);
+
+            state.totalCost = flourTotalCost + waterTotalCost + saltTotalCost + sugarTotalCost + 
+                            butterTotalCost + yeastTotalCost + miscTotalCost;
+            state.costPerPastry = state.totalCost / state.pastryCount;
         }
 
         function render() {
@@ -695,6 +831,8 @@
             elements.totalLayers.textContent = `${state.totalLayers}`;
             elements.totalDoughWeight.textContent = `${state.totalDoughWeight} g`;
             elements.finalWeight.textContent = `${state.totalDoughWeight + state.laminationButterWeight} g`;
+            elements.totalCost.textContent = `£${state.totalCost.toFixed(2)}`;
+            elements.costPerPastry.textContent = `£${state.costPerPastry.toFixed(2)}`;
             elements.pastrySummary.textContent = `${state.pastryCount} × ${state.pastryWeight}g each`;
             elements.yeastInfoType.textContent = `Your recipe uses ${getYeastTypeLabel()} Yeast.`;
             
