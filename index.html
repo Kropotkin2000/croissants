@@ -572,6 +572,67 @@
             totalCostLocal: document.getElementById('totalCostLocal')
         };
 
+        function saveState() {
+            localStorage.setItem('viennoiserieCalculatorState', JSON.stringify(state));
+        }
+
+        function loadState() {
+            const savedState = localStorage.getItem('viennoiserieCalculatorState');
+            if (savedState) {
+                state = JSON.parse(savedState);
+                applyStateToInputs();
+            }
+        }
+
+        function applyStateToInputs() {
+            elements.pastryCount.value = state.pastryCount;
+            elements.pastryWeight.value = state.pastryWeight;
+            elements.useMassCalculator.checked = state.useMassCalculator;
+            elements.hydration.value = state.hydration;
+            elements.hydrationValue.textContent = state.hydration;
+            elements.usePoolish.checked = state.usePoolish;
+            elements.cutoffsWeight.value = state.cutoffsWeight;
+            elements.salt.value = state.salt;
+            elements.saltValue.textContent = state.salt;
+            elements.sugar.value = state.sugar;
+            elements.sugarValue.textContent = state.sugar;
+            elements.butter.value = state.butter;
+            elements.butterValue.textContent = state.butter;
+            elements.yeast.value = state.yeast;
+            elements.yeastValue.textContent = state.yeast;
+            elements.yeastTypeLabel.textContent = getYeastTypeLabel();
+            elements.laminationButter.value = state.laminationButter;
+            elements.laminationButterValue.textContent = state.laminationButter;
+            elements.fold1.value = state.fold1;
+            elements.fold2.value = state.fold2;
+            elements.fold3.value = state.fold3;
+            elements.thickness.value = state.thickness;
+            elements.thicknessValue.textContent = state.thickness;
+            elements.length.value = state.length;
+            elements.lengthValue.textContent = state.length;
+            elements.width.value = state.width;
+            elements.widthValue.textContent = state.width;
+            elements.flourCost.value = state.flourCost;
+            elements.waterCost.value = state.waterCost;
+            elements.saltCost.value = state.saltCost;
+            elements.sugarCost.value = state.sugarCost;
+            elements.butterCost.value = state.butterCost;
+            elements.yeastCost.value = state.yeastCost;
+
+            elements.yeastType.forEach(radio => {
+                radio.checked = radio.value === state.yeastType;
+            });
+            elements.shape.forEach(radio => {
+                radio.checked = radio.value === state.shape;
+            });
+
+            updateYeastRangeInput();
+            updateYeastEquivalent();
+
+            elements.otherIngredients.innerHTML = '';
+            state.otherIngredients.forEach(ingredient => addOtherIngredient(ingredient.name, ingredient.quantity, ingredient.cost));
+        }
+
         function initializeListeners() {
             elements.pastryCount.addEventListener('input', () => updateState('pastryCount', Math.max(1, parseInt(elements.pastryCount.value) || 1)));
             elements.pastryWeight.addEventListener('input', () => {
@@ -664,16 +725,19 @@
                 state.otherIngredients[index].name = e.target.value;
                 calculate();
                 render();
+                saveState();
             });
             inputs[1].addEventListener('input', (e) => {
                 state.otherIngredients[index].quantity = Math.max(0, parseFloat(e.target.value) || 0);
                 calculate();
                 render();
+                saveState();
             });
             inputs[2].addEventListener('input', (e) => {
                 state.otherIngredients[index].cost = Math.max(0, parseFloat(e.target.value) || 0);
                 calculate();
                 render();
+                saveState();
             });
 
             div.querySelector('button').addEventListener('click', () => {
@@ -681,10 +745,12 @@
                 div.remove();
                 calculate();
                 render();
+                saveState();
             });
 
             calculate();
             render();
+            saveState();
         }
 
         function updateState(key, value) {
@@ -698,6 +764,7 @@
             }
             calculate();
             render();
+            saveState();
         }
 
         function handleYeastTypeChange(newType) {
@@ -717,6 +784,7 @@
             elements.yeastTypeLabel.textContent = getYeastTypeLabel();
             calculate();
             render();
+            saveState();
         }
 
         function updateYeastRangeInput() {
@@ -956,10 +1024,8 @@
         }
 
         function init() {
+            loadState();
             initializeListeners();
-            updateYeastRangeInput();
-            updateYeastEquivalent();
-            addOtherIngredient('Chocolate', 100, 5);
             calculate();
             render();
         }
