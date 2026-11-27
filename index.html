@@ -261,7 +261,7 @@ footer{color:var(--muted);text-align:center;font-size:13px;padding:30px 20px 50p
       <div class="hud" aria-live="polite"><b id="hudLayers">3</b><span id="hudStage">layers</span></div>
     </div>
     <div class="stage">
-      <div class="legend"><span><i style="background:var(--dough)"></i>Dough</span><span><i style="background:var(--butter)"></i>Butter</span></div>
+      <div class="legend"><span><i style="background:var(--dough)"></i>Dough</span><span><i style="background:var(--butter)"></i><span class="bw">Butter</span></span></div>
       <div class="stage-btns"><button type="button" id="replay">▶ Replay</button><button type="button" id="skip">Skip</button></div>
       <svg id="labSvg" viewBox="0 0 900 380" role="img" aria-label="Animated cross-section of the dough being folded">
         <defs>
@@ -285,7 +285,7 @@ footer{color:var(--muted);text-align:center;font-size:13px;padding:30px 20px 50p
       <div class="slot"><div class="label">Fold 2</div><div class="seg" role="radiogroup" aria-label="Fold 2" data-fold="fold2"></div></div>
       <div class="slot"><div class="label">Fold 3</div><div class="seg" role="radiogroup" aria-label="Fold 3" data-fold="fold3"></div></div>
       <div class="slot field" style="margin:0">
-        <label for="laminationButter">Butter block <output data-for="laminationButter" data-unit="% of dough"></output></label>
+        <label for="laminationButter"><span class="bw">Butter</span> block <output data-for="laminationButter" data-unit="% of dough"></output></label>
         <input type="range" id="laminationButter" min="20" max="35" step="1">
         <span class="hint">Single ×2 · Letter ×3 · Book ×4, after a French lock-in of 3 layers.</span>
       </div>
@@ -333,7 +333,7 @@ footer{color:var(--muted);text-align:center;font-size:13px;padding:30px 20px 50p
         <div class="field"><label for="hydration">Hydration <output data-for="hydration" data-unit="%"></output></label><input type="range" id="hydration" min="50" max="60" step="1"></div>
         <div class="field"><label for="salt">Salt <output data-for="salt" data-unit="%"></output></label><input type="range" id="salt" min="1" max="3" step="0.1"></div>
         <div class="field"><label for="sugar">Sugar <output data-for="sugar" data-unit="%"></output></label><input type="range" id="sugar" min="5" max="15" step="1"></div>
-        <div class="field"><label for="butter">Butter in the dough <output data-for="butter" data-unit="%"></output></label><input type="range" id="butter" min="5" max="20" step="1"></div>
+        <div class="field"><label for="butter"><span class="bw">Butter</span> in the dough <output data-for="butter" data-unit="%"></output></label><input type="range" id="butter" min="5" max="20" step="1"></div>
         <div class="field">
           <span class="label">Yeast</span>
           <div class="seg" role="radiogroup" aria-label="Yeast type">
@@ -343,6 +343,7 @@ footer{color:var(--muted);text-align:center;font-size:13px;padding:30px 20px 50p
           </div>
         </div>
         <div class="field"><label for="yeast">Yeast amount <output data-for="yeast" data-unit="%"></output></label><input type="range" id="yeast"><span class="hint" id="yeastEquivalent"></span></div>
+        <label class="check field"><input type="checkbox" id="plantBased"> Plant-based (vegan butter, no egg wash)</label>
         <label class="check"><input type="checkbox" id="usePoolish"> Use a poolish (15% of the flour, made the night before)</label>
         <span class="hint">All percentages are of total flour.</span>
       </section>
@@ -354,7 +355,7 @@ footer{color:var(--muted);text-align:center;font-size:13px;padding:30px 20px 50p
           <div class="field"><label for="waterCost">Water £/kg</label><input type="number" id="waterCost" min="0" step="0.01"></div>
           <div class="field"><label for="saltCost">Salt £/kg</label><input type="number" id="saltCost" min="0" step="0.01"></div>
           <div class="field"><label for="sugarCost">Sugar £/kg</label><input type="number" id="sugarCost" min="0" step="0.01"></div>
-          <div class="field"><label for="butterCost">Butter £/kg</label><input type="number" id="butterCost" min="0" step="0.01"></div>
+          <div class="field"><label for="butterCost"><span class="bw">Butter</span> £/kg</label><input type="number" id="butterCost" min="0" step="0.01"></div>
           <div class="field"><label for="yeastCost">Yeast £/kg</label><input type="number" id="yeastCost" min="0" step="0.01"></div>
         </div>
         <h3>Fillings and extras</h3>
@@ -401,7 +402,7 @@ const KEY = 'viennoiserieCalculatorState';
 const DEFAULTS = {
   pastryCount: 12, pastryWeight: 70, useMassCalculator: false,
   shape: 'triangle', length: 28, width: 10, thickness: 4,
-  cutoffsWeight: 0, hydration: 54, salt: 2, sugar: 10, butter: 9,
+  plantBased: true, cutoffsWeight: 0, hydration: 54, salt: 2, sugar: 10, butter: 9,
   yeastType: 'fresh', yeast: 3, usePoolish: false,
   laminationButter: 33, fold1: 'letter', fold2: 'letter', fold3: 'none',
   flourCost: 0.9, waterCost: 0, saltCost: 0.6, sugarCost: 1.1, butterCost: 8, yeastCost: 6,
@@ -685,17 +686,20 @@ for (const [key, parent, label, colour] of INGS) {
 
 function method(r) {
   const s = state, y = YEAST[s.yeastType].name, rehydrate = s.yeastType === 'active';
+  const vegan = s.plantBased, fat = vegan ? 'plant butter' : 'butter';
   const steps = [];
   if (s.usePoolish) steps.push(['Poolish, the night before', `Mix ${grams(r.pFlour)} flour, ${grams(r.pWater)} water and ${grams(r.pYeast)} ${y}${rehydrate ? ' (rehydrated in some of that water at 40–43°C)' : ''}. Leave at room temperature for 12–16 hours until bubbly.`]);
-  steps.push(['Mix', `${rehydrate ? `Rehydrate the ${grams(r.yeast)} yeast in some of the water at 40–43°C for 5–10 minutes. ` : ''}Mix ${grams(r.flour)} flour, ${grams(r.water)} water, ${s.usePoolish ? 'the poolish, ' : ''}${grams(r.salt)} salt, ${grams(r.sugar)} sugar and ${grams(r.yeast)} ${y} until partly developed. Add ${grams(r.butter)} butter${r.cutoffs ? ` and ${grams(r.cutoffs)} cutoffs` : ''} and knead until smooth.`]);
+  steps.push(['Mix', `${rehydrate ? `Rehydrate the ${grams(r.yeast)} yeast in some of the water at 40–43°C for 5–10 minutes. ` : ''}Mix ${grams(r.flour)} flour, ${grams(r.water)} water, ${s.usePoolish ? 'the poolish, ' : ''}${grams(r.salt)} salt, ${grams(r.sugar)} sugar and ${grams(r.yeast)} ${y} until partly developed. Add ${grams(r.butter)} ${fat}${r.cutoffs ? ` and ${grams(r.cutoffs)} cutoffs` : ''} and knead until smooth.`]);
   steps.push(['Rise and chill', 'Bulk ferment at room temperature until doubled, about 1.5–2 hours. Flatten into a rectangle, wrap and chill until firm.']);
   const f = folds();
-  steps.push(['Laminate', `Pound ${grams(r.lamButter)} butter into a flat block. Lock it into the dough with a French fold${f.length ? `, then ${f.map(x => `a ${x} fold`).join(', then ')}` : ''}, for ${r.layers} layers. Keep butter and dough equally cool and pliable, around 12–14°C, and chill for 20–30 minutes between folds.`]);
+  steps.push(['Laminate', `Pound ${grams(r.lamButter)} ${fat} into a flat block.${vegan ? ' Use a firm block made for baking, not a tub spread, which holds too much water to laminate.' : ''} Lock it into the dough with a French fold${f.length ? `, then ${f.map(x => `a ${x} fold`).join(', then ')}` : ''}, for ${r.layers} layers. Keep ${fat} and dough equally cool and pliable, around 12–14°C, and chill for 20–30 minutes between folds${vegan ? '. Plant butter softens faster than dairy, so chill longer if it starts to smear' : ''}.`]);
   const layersUp = s.useMassCalculator && s.shape === 'layersup';
   const shapeName = s.shape === 'triangle' ? 'triangles' : 'rectangles';
   steps.push(['Shape', `${layersUp ? 'For layers on top: roll the laminated dough about 1.5 cm thick and cut it into 1.5 cm strips. Turn each strip on its side so the cut face, with the layers, points up. Press the strips together edge to edge, then roll gently along the stripes. ' : ''}Roll to ${s.useMassCalculator ? `${s.thickness} mm` : '3–5 mm'} and cut ${s.pastryCount} ${s.useMassCalculator ? `${shapeName} of ${s.length} × ${s.width} cm` : `pieces of about ${r.each} g`}. Shape them.`]);
-  steps.push(['Proof', 'Proof at 24–26°C (75–78°F) until doubled and wobbly, about 2–3 hours. Any warmer and the butter starts to melt out.']);
-  steps.push(['Bake', 'Brush with egg wash (1 egg + 1 tbsp water) if you like. Bake at 190–200°C (375–390°F) for 15–20 minutes until deep golden.']);
+  steps.push(['Proof', vegan
+    ? 'Proof at about 24°C (75°F) until doubled and wobbly, about 2–3 hours. Plant butter melts out sooner than dairy, so stay at the cool end.'
+    : 'Proof at 24–26°C (75–78°F) until doubled and wobbly, about 2–3 hours. Any warmer and the butter starts to melt out.']);
+  steps.push(['Bake', `${vegan ? 'For colour, brush with plant milk mixed with a little maple syrup if you like.' : 'Brush with egg wash (1 egg + 1 tbsp water) if you like.'} Bake at 190–200°C (375–390°F) for 15–20 minutes until deep golden.`]);
   $('method').replaceChildren(...steps.map(([title, text]) => {
     const li = document.createElement('li'), t = document.createElement('strong'), p = document.createElement('p');
     t.textContent = title; p.textContent = text; li.append(t, p);
@@ -788,6 +792,8 @@ function render() {
     const el = ingEls[key], v = r[key];
     if (key === 'yeast' || key === 'pYeast') el.name.textContent = cap(y.name);
     if (key === 'cutoffs') el.row.hidden = !v;
+    if (key === 'butter') el.name.textContent = s.plantBased ? 'Plant butter' : 'Butter';
+    if (key === 'lamButter') el.name.textContent = s.plantBased ? 'Plant butter block' : 'Butter block';
     el.fill.style.width = `${Math.max(v ? 1.5 : 0, v / max * 100)}%`;
     tween(el.value, v, grams);
   }
@@ -795,6 +801,7 @@ function render() {
   tween($('totalCost'), r.cost, money);
   tween($('costEach'), r.cost / s.pastryCount, money);
 
+  document.querySelectorAll('.bw').forEach(e => e.textContent = s.plantBased ? 'Plant butter' : 'Butter');
   advice(r.layers);
   if (!playing) restLab();
   method(r);
